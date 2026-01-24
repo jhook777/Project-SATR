@@ -2,7 +2,7 @@
 A TCP-like socket system for grey hack's crypto coin subwallet system
 <br>
 For use in the game Grey Hack, by Loading Home Studios.
-<pre></pre>
+<pre>
 ///// sample subwallet info structure ////
     // pu:public address
     // jd:join date
