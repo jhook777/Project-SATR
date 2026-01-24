@@ -2,6 +2,21 @@
 A TCP-like socket system for grey hack's crypto coin subwallet system
 <br>
 For use in the game Grey Hack, by Loading Home Studios.
+
+Build 
+<code>
+nicknames.gs.src to /root/src/nicknames.gs
+and
+ghsocket.gs.src to ghsocket.gs
+
+include_lib(path_to_ghsocket.gs)
+
+The end user plugs the API into a UI of their own making.
+(sorry the 1337comm5 one is proprietary)
+
+Subwallet info structure only requires lines 0, 5, and 6
+Adjust values in ghsocket.parse if your subwallet info structure is different.
+
 <pre>
 ///// sample subwallet info structure ////
     // pu:public address
