@@ -9,9 +9,9 @@ nicknames.gs.src to /root/src/nicknames.gs
 and
 ghsocket.gs.src to ghsocket.gs
 
-include_lib(path_to_ghsocket.gs)
+build into your own script using include_lib(path_to_ghsocket.gs)
 
-The end user plugs the API into a UI of their own making.
+This API is meant to be built into a UI of your own making.
 (sorry the 1337comm5 one is proprietary)
 
 Subwallet info structure only requires lines 0, 5, and 6
@@ -38,11 +38,14 @@ Adjust values in ghsocket.parse if your subwallet info structure is different.
 
     
 // Usage: 
+    // minimum functions required to run:
 // session = ghsocket.open(c,u,p) // c: coin; object, u: user subwallet name; String, p: peer subwallet name; String
 //
 // session.send(msg)
 // session.recv
 // session.close
 // session.reset
+//
+    // see also, .tick, .echo_self, .re_send, .nickname, .seq, .ack
 ///
 </pre>
