@@ -10,7 +10,7 @@ nicknames.gs.src to /root/src/nicknames.gs
 and
 ghsocket.gs.src to ghsocket.gs
 
-build into your own script using include_lib(path_to_ghsocket.gs)
+build into your own script using import_code(path_to_ghsocket.gs)
 
 This API is meant to be built into a UI of your own making.
 (sorry the 1337comm5 one is proprietary)
