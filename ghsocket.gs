@@ -52,9 +52,9 @@
 
     // CONSTANTS
     ghsocket.SIG = "GH"
-    ghsocket.VER = "0" // leaving this at 0 till release, then moving it to 1
-    ghsocket.MINV = "7" // eventually we can poll the 'master' subwallet for the allowed versions
-    ghsocket.PATCH = "7" // and disable out-of-date clients to avoid conflicts caused by updates
+    ghsocket.VER = "8" // leaving this at 0 till release, then moving it to 1
+    ghsocket.MINV = "0" // eventually we can poll the 'master' subwallet for the allowed versions
+    ghsocket.PATCH = "2" // and disable out-of-date clients to avoid conflicts caused by updates
     ghsocket.NICKNAME_SIZE = 14 // maximum nickname length
     ghsocket.PAYLOAD_SIZE = 64 // maximum size of payload per packet. edit to optimize num-transmissions vs non-packet meta-data available in subwallet info. ie: larger payload == larger packet == less room for non-packet data
     ghsocket.MAX_MESSAGE_LENGTH = 320 // maximum length of input buffer. edit to optimize throughtput vs bandwidth
@@ -243,7 +243,7 @@
         p.ptch  = pkt[115:116]   // patch version
         p.tmst  = pkt[116:135]   // timestamp // debug only
         p.nickname = pkt[135:149] // nickname associated with user
-        p.state  = pkt[149:pkt.indexOf(ghsocket.EOP)] // should be empty at this point
+        p.eop  = pkt[149:pkt.indexOf(ghsocket.EOP)] // should be empty at this point
         return p
     end function
 
@@ -405,11 +405,11 @@
             p = ghsocket.parse(raw)
             if not p then return null
             if syn then p.tmst = 0 // if we are in SYN mode we want to update our timestamp on retries. but, -only- in SYN mode.
-            pkt = ghsocket.mk_packet(sock.user.get_info, p.flag, p.sid, p.seq, p.ack, "", p.ppub, sock.u_nickname, p.tmst) // palate cleanser
+            pkt = ghsocket.mk_packet(sock.user.get_info, p.flag, p.sid, p.seq, p.ack, "", p.ppub, p.nickname, p.tmst) // palate cleanser
             if not pkt then sock.reset
             sock.user.set_info(pkt)
             wait .317
-            pkt = ghsocket.mk_packet(sock.user.get_info, p.flag, p.sid, p.seq, p.ack, p.data, p.ppub, p.state, p.tmst)
+            pkt = ghsocket.mk_packet(sock.user.get_info, p.flag, p.sid, p.seq, p.ack, p.data, p.ppub, p.nickname, p.tmst)
             if not pkt then sock.reset
             sock.user.set_info(pkt)
             return null
