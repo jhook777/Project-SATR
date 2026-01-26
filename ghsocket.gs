@@ -1,5 +1,5 @@
     // Project SATR: Stateful Async TRansmissions for Grey Hack's blockchain.so API
-    //// ghsocket.so v 0.7.7 for 1337comm5 by Plu70
+    //// ghsocket.so v 0.8.3 for 1337comm5 by Plu70
     ////// 2025-2026, all rights reserved
     //// Made for use ONLY in the video game GREY HACK by Loading Home Studios.
     // Not Yet Released. Will be under the MIT license on release.
@@ -54,7 +54,7 @@
     ghsocket.SIG = "GH"
     ghsocket.VER = "8" // leaving this at 0 till release, then moving it to 1
     ghsocket.MINV = "0" // eventually we can poll the 'master' subwallet for the allowed versions
-    ghsocket.PATCH = "2" // and disable out-of-date clients to avoid conflicts caused by updates
+    ghsocket.PATCH = "3" // and disable out-of-date clients to avoid conflicts caused by updates
     ghsocket.NICKNAME_SIZE = 14 // maximum nickname length
     ghsocket.PAYLOAD_SIZE = 64 // maximum size of payload per packet. edit to optimize num-transmissions vs non-packet meta-data available in subwallet info. ie: larger payload == larger packet == less room for non-packet data
     ghsocket.MAX_MESSAGE_LENGTH = 320 // maximum length of input buffer. edit to optimize throughtput vs bandwidth
@@ -238,11 +238,16 @@
         p.ack   = pkt[14:16]     // ack
         p.data  = pkt[18:82]     // payload data // remember to increase this when removing metadata from packet
         p.ppub  = pkt[82:114]    // peer public id
-        // metadata // only used for debugging and testing, remove before release
+        // v metadata // only used for debugging and testing, remove before release
         p.minv  = pkt[114:115]   // minor version
         p.ptch  = pkt[115:116]   // patch version
-        p.tmst  = pkt[116:135]   // timestamp // debug only
-        p.nickname = pkt[135:149] // nickname associated with user
+        // ^ metadata // remove before release
+        p.tmst  = pkt[116:135]   // packet timestamp
+        p.nickname = pkt[135:149] // nickname associated with sender 
+        // nicknames are assigned randomly on chat creation
+        // chat's will display the nickname in the packet they receive
+        // nicknames are cosmetic only and not used for chat authority
+            // sid and public id are the packet-ownership
         p.eop  = pkt[149:pkt.indexOf(ghsocket.EOP)] // should be empty at this point
         return p
     end function
@@ -598,6 +603,7 @@
             sock.connected = 0
             sock.in_transit.reset
             // exit ghsocket.TRM
+            return null
         end function
 
         sock.reset = function()
@@ -608,6 +614,7 @@
             sock.connected = 0
             sock.in_transit.reset
             // exit ghsocket.RST
+            return null
         end function
 
         sock.check_active = function()
@@ -652,7 +659,7 @@
                 sock.s_timeouts = sock.s_timeouts + 1
                 if sock.s_timeouts >= ghsocket.MAX_SYN_TIMEOUTS and not sock.is_server then 
                     print colorError+"\\ Socket timed out; aborting..."
-                    return null
+                    return sock.reset
                 end if
                 if not sock.is_server then
                     print colorWarning+"<size=75%>\\ Timeout ["+sock.s_timeouts+" of "+ghsocket.MAX_SYN_TIMEOUTS+"]: retrying SYN..."
