@@ -2,7 +2,7 @@
     //// ghsocket.so v 0.8.3 for 1337comm5 by Plu70
     ////// 2025-2026, all rights reserved
     //// Made for use ONLY in the video game GREY HACK by Loading Home Studios.
-    // Not Yet Released. Will be under the MIT license on release.
+    // Released under the MIT license.
     // Virtual socket over subwallet info fields using the 1337coin 1337comm5 network.
     // My first time writing something like this. Trying to do it with modern coding techniques so future folks can use it.
     // Design Direction:
