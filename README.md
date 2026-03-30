@@ -1,8 +1,8 @@
 # ghsocket.so
-Project SATR: Stateful Asynchronous Transmissions
+Project SATR: Stateful Asynchronous Transmissions<br>
 A TCP-like socket system for grey hack's crypto coin subwallet system
 <br>
-For use in the game Grey Hack, by Loading Home Studios.
+For use in the game Grey Hack, by Loading Home Studios.<br>
 
 Build:
 <code>
