@@ -52,8 +52,8 @@
 
     // CONSTANTS
     ghsocket.SIG = "GH"
-    ghsocket.VER = "8" // leaving this at 0 till release, then moving it to 1
-    ghsocket.MINV = "0" // eventually we can poll the 'master' subwallet for the allowed versions
+    ghsocket.VER = "0" // leaving this at 0 till release, then moving it to 1
+    ghsocket.MINV = "8" // eventually we can poll the 'master' subwallet for the allowed versions
     ghsocket.PATCH = "3" // and disable out-of-date clients to avoid conflicts caused by updates
     ghsocket.NICKNAME_SIZE = 14 // maximum nickname length
     ghsocket.PAYLOAD_SIZE = 64 // maximum size of payload per packet. edit to optimize num-transmissions vs non-packet meta-data available in subwallet info. ie: larger payload == larger packet == less room for non-packet data
